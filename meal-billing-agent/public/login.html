@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Login — Meal Billing Agent</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+  <h1>Meal Billing Agent</h1>
+  <p class="muted">Log in to upload your meal tray photo.</p>
+
+  <div class="card">
+    <form id="loginForm">
+      <label for="loginName">Select your name</label>
+      <select id="loginName" name="name" required></select>
+
+      <label for="loginStudentId">Enter your Student ID</label>
+      <input type="text" id="loginStudentId" name="studentId" required>
+
+      <button type="submit">Login</button>
+    </form>
+    <p id="loginError" class="banner flagged hidden"></p>
+  </div>
+</div>
+
+<script src="/login.js"></script>
+</body>
+</html>

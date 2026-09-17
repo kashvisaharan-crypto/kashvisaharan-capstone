@@ -1,0 +1,6 @@
+.env
+node_modules/
+uploads/
+bills.json
+issues.json
+server.log
