@@ -1,10 +1,12 @@
 // Google OAuth login, restricted to @flame.edu.in accounts.
 //
-// Since each student's Google email is guaranteed unique, and
-// biometric.json is keyed by that same email, a successful Google login
-// that matches an entry in the roster is enough on its own - no separate
-// "confirm your Student ID" step is needed. The email IS the unique
-// identifier; Student ID is just a display field we look up afterward.
+// Any real @flame.edu.in Google account can log in - being present in
+// biometric.json's sample roster is NOT required to sign in. That file is
+// currently just 100 sample students for demo/testing purposes, not the
+// full real student body. A student outside that sample set can still log
+// in and use the app; they simply won't have attendance or bill data yet,
+// which the app already handles gracefully downstream (flagged as "no
+// biometric record" rather than crashing or being blocked at login).
 //
 // Session shape once logged in:
 //   req.session.user = {
@@ -31,14 +33,12 @@ function configurePassport(biometric) {
       return done(null, false, { message: 'Only @flame.edu.in accounts are allowed.' });
     }
 
-    const student = biometric[email];
-    if (!student) {
-      return done(null, false, { message: 'This email is not in the student roster. Contact the hostel office if this is a mistake.' });
-    }
-
+    // No roster-membership check here on purpose - any real flame.edu.in
+    // account is allowed to sign in. Downstream routes already handle a
+    // student who isn't in biometric.json gracefully (flagged, not crashed).
     const user = {
       email,
-      name: profile.displayName || student.name,
+      name: profile.displayName || email.split('@')[0],
       accessToken
     };
     return done(null, user);
@@ -48,7 +48,7 @@ function configurePassport(biometric) {
   passport.deserializeUser((obj, done) => done(null, obj));
 }
 
-// Route guard: Google login + roster match is sufficient on its own now.
+// Route guard: Google login (with the domain check above) is sufficient.
 function requireFullLogin(req, res, next) {
   if (req.isAuthenticated && req.isAuthenticated()) {
     return next();

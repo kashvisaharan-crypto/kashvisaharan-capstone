@@ -364,7 +364,12 @@ app.post('/api/logout', (req, res) => {
 app.get('/api/current-student', (req, res) => {
   if (req.isAuthenticated && req.isAuthenticated()) {
     const student = biometric[req.user.email];
-    res.json({ name: req.user.name, email: req.user.email, studentId: student.studentId });
+    res.json({
+      name: req.user.name,
+      email: req.user.email,
+      studentId: student ? student.studentId : 'Not on file',
+      inSampleRoster: !!student
+    });
   } else {
     res.json({ name: null });
   }
