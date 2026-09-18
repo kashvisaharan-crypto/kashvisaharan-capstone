@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Meal Billing Agent</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="app-page">
+<nav>
+  <img src="/assets/flame-logo.png" alt="FLAME University" class="nav-logo">
+  <a href="/">Upload Meal Photo</a>
+  <a href="/quarterly-bill">Quarterly Bill</a>
+  <span id="authStatus" class="nav-auth"></span>
+</nav>
+
+<div class="container">
+  <div class="content-box">
+  <h1>Meal Billing Agent</h1>
+  <p class="muted">Upload a photo of your meal tray and the agent will verify attendance, match it against the weekly menu, and calculate your bill.</p>
+
+  <form id="analyzeForm">
+    <label for="studentId">Student</label>
+    <input type="text" id="studentId" name="studentId" readonly>
+
+    <label for="date">Date</label>
+    <input type="date" id="date" name="date" required>
+
+    <label for="mealSlot">Meal Slot</label>
+    <select id="mealSlot" name="mealSlot" required></select>
+    <p id="mealSlotError" class="banner flagged hidden"></p>
+
+    <label for="photo">Meal Tray Photo</label>
+    <input type="file" id="photo" name="photo" accept="image/*" required>
+
+    <button type="submit">Analyze Meal</button>
+  </form>
+
+  <p id="loading" class="hidden">Agent is analyzing your meal...</p>
+
+  <div id="resultBanner" class="banner hidden"></div>
+
+  <div id="breakdownCard" class="card hidden">
+    <h2>Itemized Breakdown</h2>
+    <table id="breakdownTable">
+      <thead>
+        <tr><th>Item</th><th>Category</th><th>Price (₹)</th></tr>
+      </thead>
+      <tbody id="breakdownBody"></tbody>
+      <tfoot>
+        <tr class="total-row"><td colspan="2">Total</td><td id="totalCost"></td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div id="resultActions" class="hidden">
+    <button id="raiseIssueBtn" class="secondary">Raise an Issue</button>
+  </div>
+
+  <div id="issueCard" class="card hidden">
+    <h2>Raise an Issue</h2>
+    <form id="issueForm">
+      <label for="issueType">What is your issue?</label>
+      <select id="issueType" name="issueType" required>
+        <option value="Price breakdown is incorrect">Price breakdown is incorrect</option>
+        <option value="Total cost add-up is wrong">Total cost add-up is wrong</option>
+        <option value="I'm unsure if the pricing is correct">I'm unsure if the pricing is correct</option>
+        <option value="Food does not match the menu">Food does not match the menu</option>
+        <option value="The food I uploaded does match the menu - this was flagged incorrectly">The food I uploaded does match the menu - this was flagged incorrectly</option>
+        <option value="I was not present for this meal">I was not present for this meal</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label for="issueDescription">Describe your problem in detail</label>
+      <textarea id="issueDescription" name="issueDescription" required></textarea>
+
+      <button type="submit">Submit Issue</button>
+    </form>
+    <p id="issueStatus" class="muted"></p>
+  </div>
+  </div>
+</div>
+
+<script src="/auth.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
