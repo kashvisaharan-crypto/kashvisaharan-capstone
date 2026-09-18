@@ -1,4 +1,7 @@
 # Meal Billing Agent — Biometric & Photo-Based Mess Billing System
+**Live deployment:** https://kashvisaharan-capstone.onrender.com
+(free-tier hosting — the first request after a period of inactivity can
+take up to 50 seconds to wake the server up; this is expected, not a bug)
 
 A hostel mess billing system that charges students for what they actually
 eat, not a flat monthly fee. Students log in with their college Google
@@ -14,10 +17,13 @@ the university's own portal style.
 
 ## How it works
 
-1. **Login** — student signs in with their `@flame.edu.in` Google account.
-   No manual name/ID entry; the student's unique email is their identity
-   throughout the app, which also means two students who happen to share a
-   name are never confused with each other.
+1. **Login** — any student with a real `@flame.edu.in` Google account can
+   sign in. No manual name/ID entry; the student's unique email is their
+   identity throughout the app, which also means two students who happen
+   to share a name are never confused with each other. A student outside
+   the 100-student sample roster can still log in and use the app; they
+   simply won't have attendance or bill data yet, which the app shows as
+   a flagged/no-data case rather than blocking their login.
 2. **Upload** — student picks a date and meal slot, uploads a photo of their
    tray.
 3. **Agent loop (perceive → reason → act → observe)**:
