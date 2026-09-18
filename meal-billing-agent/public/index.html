@@ -5,14 +5,16 @@
 <title>Meal Billing Agent</title>
 <link rel="stylesheet" href="/style.css">
 </head>
-<body>
+<body class="app-page">
 <nav>
+  <img src="/assets/flame-logo.png" alt="FLAME University" class="nav-logo">
   <a href="/">Upload Meal Photo</a>
   <a href="/quarterly-bill">Quarterly Bill</a>
   <span id="authStatus" class="nav-auth"></span>
 </nav>
 
 <div class="container">
+  <div class="content-box">
   <h1>Meal Billing Agent</h1>
   <p class="muted">Upload a photo of your meal tray and the agent will verify attendance, match it against the weekly menu, and calculate your bill.</p>
 
@@ -74,6 +76,7 @@
       <button type="submit">Submit Issue</button>
     </form>
     <p id="issueStatus" class="muted"></p>
+  </div>
   </div>
 </div>
 
