@@ -3,8 +3,11 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const multer = require('multer');
+const session = require('express-session');
+const passport = require('passport');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { connectFilesystemMCP, readJSONViaMCP, writeJSONViaMCP, readTextViaMCP } = require('./mcpClient');
+const { configurePassport, requireFullLogin, ALLOWED_DOMAIN } = require('./auth');
 
 const PORT = process.env.PORT || 3000;
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
@@ -12,17 +15,11 @@ const BILLS_PATH = path.join(__dirname, 'bills.json');
 const ISSUES_PATH = path.join(__dirname, 'issues.json');
 const CONFIDENCE_THRESHOLD = 0.6;
 
-// Single in-memory "session" — no auth tokens, no cookies, just whichever
-// student last logged in. Fine for a single-user demo, not for real multi-user auth.
-let loggedInStudent = null;
-
 if (!fs.existsSync(UPLOADS_DIR)) fs.mkdirSync(UPLOADS_DIR, { recursive: true });
 if (!fs.existsSync(BILLS_PATH)) fs.writeFileSync(BILLS_PATH, '{}');
 if (!fs.existsSync(ISSUES_PATH)) fs.writeFileSync(ISSUES_PATH, '[]');
 
 // ---------- data loading (via MCP) ----------
-// menu and biometric start undefined and get set by initMCPData() below,
-// which runs before the server starts listening.
 let menu;
 let biometric;
 let skillInstructions;
@@ -33,6 +30,10 @@ async function initMCPData() {
   biometric = await readJSONViaMCP(path.join(__dirname, 'biometric.json'));
   skillInstructions = await readTextViaMCP(path.join(__dirname, 'skill.md'));
   console.log('[MCP] menu.json, biometric.json, and skill.md loaded via filesystem MCP server');
+
+  // Passport needs the biometric roster to validate logins against, so we
+  // configure it only after biometric.json has actually loaded.
+  configurePassport(biometric);
 }
 
 async function loadJSON(filePath, fallback) {
@@ -114,24 +115,16 @@ function attendanceKeyForSlot(mealSlot) {
   return mealSlot === 'Evening Snacks' ? 'evening_snacks' : mealSlot;
 }
 
-// Cooking-method/texture/filler words stripped before matching, so a shared
-// descriptor (e.g. "steamed" in both "broccoli florets steamed" and
-// "Steamed Rice") can't cause a false match on its own.
 const DESCRIPTORS = new Set(['steamed', 'fried', 'fresh', 'cooked', 'light', 'sliced', 'chopped', 'roasted', 'boiled', 'grilled', 'with', 'and', 'in', 'a', 'the', 'of', 'or']);
 
 function normalize(str) {
   return str.toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
 }
 
-// The remaining significant words after stripping descriptors — this is the
-// "core noun" used for matching, e.g. "broccoli florets steamed" -> ["broccoli", "florets"].
 function coreWords(str) {
   return normalize(str).split(' ').filter(w => w && !DESCRIPTORS.has(w));
 }
 
-// A meal should only be flagged when NONE of the identified items' core
-// nouns overlap with the menu at all — this checks core-word overlap only,
-// so shared descriptors alone (like "steamed") can't count as a match.
 function itemsRoughlyMatch(menuItem, detectedItem) {
   const menuCoreWords = coreWords(menuItem);
   const detectedCoreWords = coreWords(detectedItem);
@@ -143,10 +136,6 @@ function itemsRoughlyMatch(menuItem, detectedItem) {
   return menuCoreWords.some(w => detectedSet.has(w));
 }
 
-// Picks the single best menu item for one detected food: the candidate with
-// the most core words in common with the detected item (ties broken in
-// favor of the more specific/longer menu entry), so each detected food bills
-// exactly one menu line instead of every loosely-related entry.
 function bestMenuMatch(expectedItems, detectedItem) {
   const detectedSet = new Set(coreWords(detectedItem));
   let best = null;
@@ -171,16 +160,36 @@ function bestMenuMatch(expectedItems, detectedItem) {
 // ---------- Gemini ----------
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-// gemini-1.5-flash has been deprecated on some API keys/projects (404s).
-// Try these in order and stick with whichever one actually responds.
-// gemini-3.6-flash is first because Google's own 404 response for
-// gemini-2.0-flash explicitly names it as the current replacement.
 const GEMINI_MODEL_CANDIDATES = ['gemini-3.6-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-exp', 'gemini-1.5-flash-latest', 'gemini-pro-vision'];
+
+// Realistic failure case hardened here: Gemini can hang indefinitely on a
+// slow network or an API-side slowdown, leaving the student staring at a
+// spinner forever with no feedback. We cap each model attempt at 15 seconds
+// using AbortController, so a hang degrades into a clear, fast failure
+// (falls through to the next model, then eventually a clean "flagged"
+// response) instead of hanging the whole request.
+const GEMINI_TIMEOUT_MS = 15000;
 
 function extractJSON(text) {
   const match = text.match(/\{[\s\S]*\}/);
   if (!match) throw new Error('Gemini response did not contain JSON');
   return JSON.parse(match[0]);
+}
+
+async function callGeminiWithTimeout(model, promptParts, timeoutMs) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const result = await model.generateContent(promptParts, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    return result;
+  } catch (err) {
+    clearTimeout(timeoutId);
+    if (controller.signal.aborted) {
+      throw new Error(`Gemini request timed out after ${timeoutMs / 1000}s`);
+    }
+    throw err;
+  }
 }
 
 async function analyzeImageWithGemini(filePath, mimeType, menuItems, mealSlot, date) {
@@ -219,7 +228,7 @@ Where "confidence" is a number between 0 and 1 representing how confident you ar
   for (const modelName of GEMINI_MODEL_CANDIDATES) {
     try {
       const model = genAI.getGenerativeModel({ model: modelName });
-      const result = await model.generateContent([prompt, imagePart]);
+      const result = await callGeminiWithTimeout(model, [prompt, imagePart], GEMINI_TIMEOUT_MS);
       const text = result.response.text();
       return extractJSON(text);
     } catch (err) {
@@ -231,14 +240,14 @@ Where "confidence" is a number between 0 and 1 representing how confident you ar
 }
 
 // ---------- Agent loop ----------
-async function analyzeMeal({ studentId, date, mealSlot, filePath, mimeType }) {
+async function analyzeMeal({ studentEmail, date, mealSlot, filePath, mimeType }) {
   console.log('\n========== NEW MEAL ANALYSIS ==========');
-  console.log(`[PERCEIVE] photo=${path.basename(filePath)} studentId=${studentId} date=${date} mealSlot=${mealSlot}`);
+  console.log(`[PERCEIVE] photo=${path.basename(filePath)} studentEmail=${studentEmail} date=${date} mealSlot=${mealSlot}`);
 
-  const student = biometric[studentId];
+  const student = biometric[studentEmail];
   if (!student) {
-    console.log('[OBSERVE] Flag -> unknown student ID');
-    return { status: 'flagged', reason: 'Unknown student ID', flagCode: 'UNKNOWN_STUDENT' };
+    console.log('[OBSERVE] Flag -> unknown student email');
+    return { status: 'flagged', reason: 'Unknown student email', flagCode: 'UNKNOWN_STUDENT' };
   }
 
   const dayMenu = menu[date];
@@ -248,7 +257,6 @@ async function analyzeMeal({ studentId, date, mealSlot, filePath, mimeType }) {
     return { status: 'flagged', reason: 'No menu entry found for the selected date and meal slot', flagCode: 'NO_MENU' };
   }
   console.log(`[REASON] Menu for ${dayMenu.day} ${mealSlot}: ${expectedItems.join(', ')}`);
-  console.log('[DEBUG] Menu items for this slot:', expectedItems);
 
   const present = student.attendance?.[date]?.[attendanceKeyForSlot(mealSlot)];
   console.log(`[REASON] Biometric record: ${present === true ? 'PRESENT' : present === false ? 'ABSENT' : 'NO RECORD'}`);
@@ -263,10 +271,9 @@ async function analyzeMeal({ studentId, date, mealSlot, filePath, mimeType }) {
     analysis = await analyzeImageWithGemini(filePath, mimeType, expectedItems, mealSlot, date);
   } catch (err) {
     console.log(`[OBSERVE] Flag -> Gemini analysis failed: ${err.message}`);
-    return { status: 'flagged', reason: 'AI analysis failed - please try again or contact support', flagCode: 'GEMINI_ERROR', menuItems: expectedItems };
+    return { status: 'flagged', reason: 'AI analysis failed or timed out - please try again', flagCode: 'GEMINI_ERROR', menuItems: expectedItems };
   }
   console.log(`[REASON] Gemini confidence=${analysis.confidence} imageQuality=${analysis.imageQuality}`);
-  console.log('[DEBUG] Gemini identified:', analysis.identified_items);
 
   if (analysis.imageQuality === 'unclear') {
     console.log('[OBSERVE] Flag -> image unclear');
@@ -279,12 +286,9 @@ async function analyzeMeal({ studentId, date, mealSlot, filePath, mimeType }) {
 
   const identifiedItems = Array.isArray(analysis.identified_items) ? analysis.identified_items : [];
 
-  // One menu line per detected food: pick the single best-matching menu item
-  // for each item Gemini identified, and never bill the same menu item twice.
   const matchedMenuItems = [];
   for (const detectedItem of identifiedItems) {
     const best = bestMenuMatch(expectedItems, detectedItem);
-    console.log(`[DEBUG] Match found: ${best ? 'yes' : 'no'} for "${detectedItem}"${best ? ` (-> ${best})` : ''}`);
     if (best && !matchedMenuItems.includes(best)) {
       matchedMenuItems.push(best);
     }
@@ -304,9 +308,9 @@ async function analyzeMeal({ studentId, date, mealSlot, filePath, mimeType }) {
   console.log(`[ACT] Itemized total: ₹${total}`);
 
   const bills = await loadJSON(BILLS_PATH, {});
-  bills[studentId] = bills[studentId] || [];
+  bills[studentEmail] = bills[studentEmail] || [];
   const entry = {
-    id: `${studentId}-${date}-${mealSlot}-${Date.now()}`,
+    id: `${studentEmail}-${date}-${mealSlot}-${Date.now()}`,
     date,
     mealSlot,
     items,
@@ -314,7 +318,7 @@ async function analyzeMeal({ studentId, date, mealSlot, filePath, mimeType }) {
     confidence: analysis.confidence,
     timestamp: new Date().toISOString()
   };
-  bills[studentId].push(entry);
+  bills[studentEmail].push(entry);
   await saveJSON(BILLS_PATH, bills);
   console.log('[ACT] Bill entry saved');
 
@@ -324,38 +328,79 @@ async function analyzeMeal({ studentId, date, mealSlot, filePath, mimeType }) {
 // ---------- Express app ----------
 const app = express();
 app.use(express.json());
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: { maxAge: 24 * 60 * 60 * 1000 } // 24 hours
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 const upload = multer({ dest: UPLOADS_DIR });
 
+// ---------- Auth routes ----------
+app.get('/login', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'login.html'));
+});
+
+app.get('/auth/google', passport.authenticate('google'));
+
+app.get('/auth/google/callback',
+  passport.authenticate('google', { failureRedirect: '/login' }),
+  (req, res) => {
+    res.redirect('/');
+  }
+);
+
+app.post('/api/logout', (req, res) => {
+  req.logout(() => {
+    res.json({ success: true });
+  });
+});
+
+app.get('/api/current-student', (req, res) => {
+  if (req.isAuthenticated && req.isAuthenticated()) {
+    const student = biometric[req.user.email];
+    res.json({ name: req.user.name, email: req.user.email, studentId: student.studentId });
+  } else {
+    res.json({ name: null });
+  }
+});
+
+// ---------- Main app routes (all require full login) ----------
 app.get('/', (req, res) => {
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
+    return res.redirect('/login');
+  }
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/quarterly-bill', (req, res) => {
+  if (!req.isAuthenticated || !req.isAuthenticated()) {
+    return res.redirect('/login');
+  }
   res.sendFile(path.join(__dirname, 'public', 'quarterly.html'));
 });
 
-app.get('/api/students', (req, res) => {
-  const students = Object.entries(biometric).map(([id, s]) => ({ id, name: s.name }));
-  res.json(students);
-});
-
-app.get('/api/menu-slots/:date', (req, res) => {
+app.get('/api/menu-slots/:date', requireFullLogin, (req, res) => {
   const dayMenu = menu[req.params.date];
   if (!dayMenu) return res.json({ date: req.params.date, day: null, slots: [] });
   const slots = Object.keys(dayMenu).filter(k => k !== 'day');
   res.json({ date: req.params.date, day: dayMenu.day, slots });
 });
 
-app.post('/api/analyze', upload.single('photo'), async (req, res) => {
+app.post('/api/analyze', requireFullLogin, upload.single('photo'), async (req, res) => {
   try {
-    const { studentId, date, mealSlot } = req.body;
+    const { date, mealSlot } = req.body;
     if (!req.file) return res.status(400).json({ error: 'No photo uploaded' });
-    if (!studentId || !date || !mealSlot) return res.status(400).json({ error: 'studentId, date and mealSlot are required' });
+    if (!date || !mealSlot) return res.status(400).json({ error: 'date and mealSlot are required' });
 
+    // studentEmail comes from the authenticated session, never from the
+    // request body - a student can only ever bill themselves.
     const result = await analyzeMeal({
-      studentId,
+      studentEmail: req.user.email,
       date,
       mealSlot,
       filePath: req.file.path,
@@ -368,22 +413,27 @@ app.post('/api/analyze', upload.single('photo'), async (req, res) => {
   }
 });
 
-app.get('/api/quarterly-bill/:studentId', async (req, res) => {
-  const student = biometric[req.params.studentId];
+app.get('/api/quarterly-bill/:studentEmail', requireFullLogin, async (req, res) => {
+  // The URL param is accepted for backward compatibility with the existing
+  // frontend, but ignored for authorization: a student can only ever see
+  // their own bill, determined from their authenticated session - never
+  // from a client-supplied value.
+  const student = biometric[req.user.email];
   if (!student) return res.status(404).json({ error: 'Student not found' });
   const bills = await loadJSON(BILLS_PATH, {});
-  const entries = bills[req.params.studentId] || [];
+  const entries = bills[req.user.email] || [];
   const total = entries.reduce((sum, e) => sum + e.total, 0);
-  res.json({ studentId: req.params.studentId, name: student.name, entries, total });
+  res.json({ studentEmail: req.user.email, name: student.name, entries, total });
 });
 
-app.post('/api/raise-issue', async (req, res) => {
-  const { studentName, date, mealSlot, issueType, description } = req.body;
+app.post('/api/raise-issue', requireFullLogin, async (req, res) => {
+  const { date, mealSlot, issueType, description } = req.body;
   const timestamp = new Date().toISOString();
 
   const issues = await loadJSON(ISSUES_PATH, []);
   issues.push({
-    studentName: studentName || 'N/A',
+    studentName: req.user.name,
+    studentEmail: req.user.email,
     date: date || 'N/A',
     mealSlot: mealSlot || 'N/A',
     issueType,
@@ -395,34 +445,10 @@ app.post('/api/raise-issue', async (req, res) => {
   res.json({ success: true });
 });
 
-app.get('/login', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'login.html'));
-});
-
-app.post('/api/login', (req, res) => {
-  const { name, studentId } = req.body;
-  const student = biometric[name];
-
-  if (!student || String(student.studentId) !== String(studentId || '').trim()) {
-    return res.status(401).json({ success: false, error: 'Incorrect Student ID. Please try again.' });
-  }
-
-  loggedInStudent = name;
-  res.json({ success: true, name });
-});
-
-app.post('/api/logout', (req, res) => {
-  loggedInStudent = null;
-  res.json({ success: true });
-});
-
-app.get('/api/current-student', (req, res) => {
-  res.json({ name: loggedInStudent });
-});
-
 initMCPData().then(() => {
   app.listen(PORT, () => {
     console.log(`Meal Billing Agent running at http://localhost:${PORT}`);
+    console.log(`Google OAuth restricted to @${ALLOWED_DOMAIN} accounts`);
   });
 }).catch(err => {
   console.error('[MCP] Failed to initialize filesystem MCP connection:', err);

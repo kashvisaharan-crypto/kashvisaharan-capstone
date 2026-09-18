@@ -1,162 +1,502 @@
 {
-  "Kashvi Saharan": {
+  "kashvi.saharan@flame.edu.in": {
     "name": "Kashvi Saharan",
     "studentId": "240184",
     "email": "kashvi.saharan@flame.edu.in",
     "parentName": "Prem Sharan",
     "parentEmail": "premsharan@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-15": { "Breakfast": true, "Lunch": true, "evening_snacks": false, "Dinner": true },
-      "2026-09-16": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-17": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-18": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": false },
-      "2026-09-19": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-20": { "Brunch": true, "evening_snacks": true, "Dinner": true }
+      "2026-09-14": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-15": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": false,
+        "Dinner": true
+      },
+      "2026-09-16": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-17": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-18": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": false
+      },
+      "2026-09-19": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-20": {
+        "Brunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      }
     }
   },
-  "Priya Sharma": {
+  "priya.sharma@flame.edu.in": {
     "name": "Priya Sharma",
     "studentId": "240101",
     "email": "priya.sharma@flame.edu.in",
     "parentName": "Rajesh Sharma",
     "parentEmail": "rajesh.sharma@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-15": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-16": { "Breakfast": true, "Lunch": true, "evening_snacks": false, "Dinner": true },
-      "2026-09-17": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": false },
-      "2026-09-18": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-19": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-20": { "Brunch": true, "evening_snacks": true, "Dinner": true }
+      "2026-09-14": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-15": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-16": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": false,
+        "Dinner": true
+      },
+      "2026-09-17": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": false
+      },
+      "2026-09-18": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-19": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-20": {
+        "Brunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      }
     }
   },
-  "Arjun Mehta": {
+  "arjun.mehta@flame.edu.in": {
     "name": "Arjun Mehta",
     "studentId": "240102",
     "email": "arjun.mehta@flame.edu.in",
     "parentName": "Sunita Mehta",
     "parentEmail": "sunita.mehta@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-15": { "Breakfast": true, "Lunch": true, "evening_snacks": false, "Dinner": false },
-      "2026-09-16": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-17": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-18": { "Breakfast": true, "Lunch": true, "evening_snacks": false, "Dinner": false },
-      "2026-09-19": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-20": { "Brunch": true, "evening_snacks": true, "Dinner": false }
+      "2026-09-14": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-15": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": false,
+        "Dinner": false
+      },
+      "2026-09-16": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-17": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-18": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": false,
+        "Dinner": false
+      },
+      "2026-09-19": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-20": {
+        "Brunch": true,
+        "evening_snacks": true,
+        "Dinner": false
+      }
     }
   },
-  "Kavya Nair": {
+  "kavya.nair@flame.edu.in": {
     "name": "Kavya Nair",
     "studentId": "240103",
     "email": "kavya.nair@flame.edu.in",
     "parentName": "Mohan Nair",
     "parentEmail": "mohan.nair@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-15": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-16": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-17": { "Breakfast": true, "Lunch": false, "evening_snacks": false, "Dinner": true },
-      "2026-09-18": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-19": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-20": { "Brunch": false, "evening_snacks": true, "Dinner": true }
+      "2026-09-14": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-15": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-16": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-17": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": false,
+        "Dinner": true
+      },
+      "2026-09-18": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-19": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-20": {
+        "Brunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      }
     }
   },
-  "Rohan Iyer": {
+  "rohan.iyer@flame.edu.in": {
     "name": "Rohan Iyer",
     "studentId": "240104",
     "email": "rohan.iyer@flame.edu.in",
     "parentName": "Deepa Iyer",
     "parentEmail": "deepa.iyer@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": true, "Lunch": true, "evening_snacks": false, "Dinner": false },
-      "2026-09-15": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-16": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-17": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-18": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-19": { "Breakfast": true, "Lunch": true, "evening_snacks": false, "Dinner": false },
-      "2026-09-20": { "Brunch": true, "evening_snacks": true, "Dinner": true }
+      "2026-09-14": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": false,
+        "Dinner": false
+      },
+      "2026-09-15": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-16": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-17": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-18": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-19": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": false,
+        "Dinner": false
+      },
+      "2026-09-20": {
+        "Brunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      }
     }
   },
-  "Ananya Singh": {
+  "ananya.singh@flame.edu.in": {
     "name": "Ananya Singh",
     "studentId": "240105",
     "email": "ananya.singh@flame.edu.in",
     "parentName": "Vikram Singh",
     "parentEmail": "vikram.singh@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-15": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-16": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": false },
-      "2026-09-17": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-18": { "Breakfast": true, "Lunch": true, "evening_snacks": false, "Dinner": true },
-      "2026-09-19": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-20": { "Brunch": true, "evening_snacks": true, "Dinner": false }
+      "2026-09-14": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-15": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-16": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": false
+      },
+      "2026-09-17": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-18": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": false,
+        "Dinner": true
+      },
+      "2026-09-19": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-20": {
+        "Brunch": true,
+        "evening_snacks": true,
+        "Dinner": false
+      }
     }
   },
-  "Dev Patel": {
+  "dev.patel@flame.edu.in": {
     "name": "Dev Patel",
     "studentId": "240106",
     "email": "dev.patel@flame.edu.in",
     "parentName": "Meena Patel",
     "parentEmail": "meena.patel@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-15": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-16": { "Breakfast": true, "Lunch": true, "evening_snacks": false, "Dinner": false },
-      "2026-09-17": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-18": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-19": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-20": { "Brunch": false, "evening_snacks": false, "Dinner": true }
+      "2026-09-14": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-15": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-16": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": false,
+        "Dinner": false
+      },
+      "2026-09-17": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-18": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-19": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-20": {
+        "Brunch": false,
+        "evening_snacks": false,
+        "Dinner": true
+      }
     }
   },
-  "Ishaan Chopra": {
+  "ishaan.chopra@flame.edu.in": {
     "name": "Ishaan Chopra",
     "studentId": "240107",
     "email": "ishaan.chopra@flame.edu.in",
     "parentName": "Rahul Chopra",
     "parentEmail": "rahul.chopra@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-15": { "Breakfast": true, "Lunch": false, "evening_snacks": false, "Dinner": true },
-      "2026-09-16": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-17": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": false },
-      "2026-09-18": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-19": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-20": { "Brunch": true, "evening_snacks": true, "Dinner": true }
+      "2026-09-14": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-15": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": false,
+        "Dinner": true
+      },
+      "2026-09-16": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-17": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": false
+      },
+      "2026-09-18": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-19": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-20": {
+        "Brunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      }
     }
   },
-  "Zara Khan": {
+  "zara.khan@flame.edu.in": {
     "name": "Zara Khan",
     "studentId": "240108",
     "email": "zara.khan@flame.edu.in",
     "parentName": "Imran Khan",
     "parentEmail": "imran.khan@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": false },
-      "2026-09-15": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-16": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-17": { "Breakfast": true, "Lunch": false, "evening_snacks": false, "Dinner": true },
-      "2026-09-18": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-19": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": false },
-      "2026-09-20": { "Brunch": false, "evening_snacks": true, "Dinner": true }
+      "2026-09-14": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": false
+      },
+      "2026-09-15": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-16": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-17": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": false,
+        "Dinner": true
+      },
+      "2026-09-18": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-19": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": false
+      },
+      "2026-09-20": {
+        "Brunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      }
     }
   },
-  "Aditya Rao": {
+  "aditya.rao@flame.edu.in": {
     "name": "Aditya Rao",
     "studentId": "240109",
     "email": "aditya.rao@flame.edu.in",
     "parentName": "Lakshmi Rao",
     "parentEmail": "lakshmi.rao@gmail.com",
     "attendance": {
-      "2026-09-14": { "Breakfast": true, "Lunch": true, "evening_snacks": false, "Dinner": true },
-      "2026-09-15": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-16": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": false },
-      "2026-09-17": { "Breakfast": false, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-18": { "Breakfast": true, "Lunch": true, "evening_snacks": true, "Dinner": true },
-      "2026-09-19": { "Breakfast": true, "Lunch": false, "evening_snacks": true, "Dinner": true },
-      "2026-09-20": { "Brunch": true, "evening_snacks": true, "Dinner": true }
+      "2026-09-14": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": false,
+        "Dinner": true
+      },
+      "2026-09-15": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-16": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": false
+      },
+      "2026-09-17": {
+        "Breakfast": false,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-18": {
+        "Breakfast": true,
+        "Lunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-19": {
+        "Breakfast": true,
+        "Lunch": false,
+        "evening_snacks": true,
+        "Dinner": true
+      },
+      "2026-09-20": {
+        "Brunch": true,
+        "evening_snacks": true,
+        "Dinner": true
+      }
     }
   }
 }
