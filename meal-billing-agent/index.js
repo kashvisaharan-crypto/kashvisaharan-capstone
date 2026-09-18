@@ -4,7 +4,7 @@ const path = require('path');
 const express = require('express');
 const multer = require('multer');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
-const { connectFilesystemMCP, readJSONViaMCP, writeJSONViaMCP } = require('./mcpClient');
+const { connectFilesystemMCP, readJSONViaMCP, writeJSONViaMCP, readTextViaMCP } = require('./mcpClient');
 
 const PORT = process.env.PORT || 3000;
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
@@ -25,12 +25,14 @@ if (!fs.existsSync(ISSUES_PATH)) fs.writeFileSync(ISSUES_PATH, '[]');
 // which runs before the server starts listening.
 let menu;
 let biometric;
+let skillInstructions;
 
 async function initMCPData() {
   await connectFilesystemMCP(__dirname);
   menu = await readJSONViaMCP(path.join(__dirname, 'menu.json'));
   biometric = await readJSONViaMCP(path.join(__dirname, 'biometric.json'));
-  console.log('[MCP] menu.json and biometric.json loaded via filesystem MCP server');
+  skillInstructions = await readTextViaMCP(path.join(__dirname, 'skill.md'));
+  console.log('[MCP] menu.json, biometric.json, and skill.md loaded via filesystem MCP server');
 }
 
 async function loadJSON(filePath, fallback) {
@@ -185,7 +187,15 @@ async function analyzeImageWithGemini(filePath, mimeType, menuItems, mealSlot, d
   const imageBuffer = fs.readFileSync(filePath);
   const imagePart = { inlineData: { data: imageBuffer.toString('base64'), mimeType } };
 
-  const prompt = `You are analyzing a photo of a student's meal tray from a university dining hall.
+  const prompt = `You are an agent following this Skill definition exactly. Do not deviate from
+the rules it sets, especially around flagging low-confidence or non-matching cases rather than
+guessing:
+
+--- SKILL DEFINITION (loaded via MCP from skill.md) ---
+${skillInstructions}
+--- END SKILL DEFINITION ---
+
+You are analyzing a photo of a student's meal tray from a university dining hall.
 The meal is "${mealSlot}" on ${date}. The official menu items served for this meal are:
 ${menuItems.map(i => `- ${i}`).join('\n')}
 

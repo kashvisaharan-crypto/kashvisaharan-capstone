@@ -42,6 +42,14 @@ async function readJSONViaMCP(absolutePath) {
   return JSON.parse(text);
 }
 
+async function readTextViaMCP(absolutePath) {
+  const result = await client.callTool({
+    name: "read_text_file",
+    arguments: { path: absolutePath }
+  });
+  return result.content?.[0]?.text ?? result.structuredContent?.content;
+}
+
 async function writeJSONViaMCP(absolutePath, data) {
   await client.callTool({
     name: "write_file",
@@ -52,4 +60,4 @@ async function writeJSONViaMCP(absolutePath, data) {
   });
 }
 
-module.exports = { connectFilesystemMCP, readJSONViaMCP, writeJSONViaMCP };
+module.exports = { connectFilesystemMCP, readJSONViaMCP, writeJSONViaMCP, readTextViaMCP };
