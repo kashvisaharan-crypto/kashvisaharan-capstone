@@ -35,6 +35,13 @@
 - What Shipped: Redesigned the app's UI to match FLAME University's actual branding. Extracted exact brand colors (navy #1E456C, gold #F2B743) programmatically from the real FLAME logo and a design reference image rather than guessing them. Rebuilt the login page to match the university's own portal login structure: logo seamless on a plain white background, no card border around it, navy heading text, Google-only sign-in. Removed dark mode entirely so the site stays plain white/light regardless of system settings. Redesigned the top nav from a solid navy strip to a white bar with the real logo and navy text links. Added a full-page decorative background image (a commissioned line-art illustration) to the upload and quarterly bill pages, with content held in a white padded box on top for legibility, sized with CSS background-cover so it scales cleanly across screen sizes without pixelating.
 - What Broke: Nothing broke technically, but an early instruction ("white heading text, no navy anywhere") was self-contradictory - white text has no readable background without a colored element behind it. Caught this before building anything by asking for clarification rather than guessing, which the final reference image resolved directly (navy heading text, not white).
 
+## Entry 6
+- Date: 2026-09-19
+- Time Spent: 45 mins
+- Tokens Used:60k
+- What Shipped: Deployed the app to production on Render (free tier), including build/start command configuration, environment variable setup, and switching the OAuth callback and app URLs from localhost to the live domain. Removed the roster-membership restriction from login: any real @flame.edu.in Google account can now sign in, not just the 100 sample students in biometric.json - a student outside that sample set can still log in and use the app, with missing attendance data handled as an existing flagged case rather than a login block.
+- What Broke: Google OAuth repeatedly failed with redirect_uri_mismatch even though the registered URI and the app's configured URI appeared identical on both sides. Root cause was an invisible artifact from copy-pasting the URI into Google Cloud Console's field; deleting the saved URI entirely and manually retyping it character-by-character resolved it. Separately, an environment variable name was typo'd (SESSION_SECRE instead of SESSION_SECRET) during manual entry on Render, which broke session handling until caught and corrected.
+
 **Running Totals (across all entries):**
-- Total time spent: approximately 4.5-5.5 hours
-- Total tokens used: 202k 
+- Total time spent: approximately 5.5-6 hours
+- Total tokens used: 262k 
