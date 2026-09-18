@@ -13,12 +13,10 @@ const raiseIssueBtn = document.getElementById('raiseIssueBtn');
 const issueCard = document.getElementById('issueCard');
 const issueForm = document.getElementById('issueForm');
 const issueStatus = document.getElementById('issueStatus');
+const issueTypeSelect = document.getElementById('issueType');
 
 let currentContext = null;
 
-// Meal slots become selectable this many hours into the day. Slots with no
-// entry here (none currently) are treated as always available once the date
-// itself is valid.
 const SLOT_START_HOUR = {
   'Breakfast': 7,
   'Brunch': 7,
@@ -63,8 +61,6 @@ async function refreshMealSlots() {
   }
 }
 
-// Only the max date is restricted (to today) — students can go back to any
-// past date to log a meal retroactively.
 dateInput.max = todayStr();
 dateInput.value = todayStr();
 dateInput.addEventListener('change', refreshMealSlots);
@@ -141,7 +137,6 @@ issueForm.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        studentName: currentContext ? currentContext.studentName : '',
         date: currentContext ? currentContext.date : '',
         mealSlot: currentContext ? currentContext.mealSlot : '',
         issueType,
@@ -150,7 +145,15 @@ issueForm.addEventListener('submit', async (e) => {
     });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Failed to submit issue');
-    issueStatus.textContent = 'Your issue has been submitted successfully.';
+
+    if (data.emailWarning) {
+      // The issue itself was saved successfully - only the email
+      // notification had a problem, and we say so honestly rather than
+      // hiding it.
+      issueStatus.textContent = `Your issue was saved, but the email notification could not be sent: ${data.emailWarning}`;
+    } else {
+      issueStatus.textContent = 'Your issue has been submitted and a confirmation email was sent to you.';
+    }
     issueForm.reset();
   } catch (err) {
     issueStatus.textContent = 'Error: ' + err.message;

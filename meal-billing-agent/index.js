@@ -8,6 +8,7 @@ const passport = require('passport');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 const { connectFilesystemMCP, readJSONViaMCP, writeJSONViaMCP, readTextViaMCP } = require('./mcpClient');
 const { configurePassport, requireFullLogin, ALLOWED_DOMAIN } = require('./auth');
+const { sendAsUser } = require('./emailSender');
 
 const PORT = process.env.PORT || 3000;
 const UPLOADS_DIR = path.join(__dirname, 'uploads');
@@ -426,12 +427,14 @@ app.get('/api/quarterly-bill/:studentEmail', requireFullLogin, async (req, res) 
   res.json({ studentEmail: req.user.email, name: student.name, entries, total });
 });
 
+const ISSUE_OFFICE_EMAIL = 'student.design7@flame.edu.in';
+
 app.post('/api/raise-issue', requireFullLogin, async (req, res) => {
   const { date, mealSlot, issueType, description } = req.body;
   const timestamp = new Date().toISOString();
 
   const issues = await loadJSON(ISSUES_PATH, []);
-  issues.push({
+  const issueRecord = {
     studentName: req.user.name,
     studentEmail: req.user.email,
     date: date || 'N/A',
@@ -439,8 +442,65 @@ app.post('/api/raise-issue', requireFullLogin, async (req, res) => {
     issueType,
     description: description || '',
     timestamp
-  });
+  };
+  issues.push(issueRecord);
   await saveJSON(ISSUES_PATH, issues);
+
+  // Send two emails as the student themselves (using the Gmail-send
+  // permission granted at login): one to the hostel office, one back to
+  // the student as a confirmation. If either fails - most likely because
+  // the OAuth access token has expired - we still keep the issue saved
+  // above, and report the email problem separately rather than losing the
+  // student's report entirely.
+  const officeEmailBody = `A new meal billing issue has been submitted.
+
+Student: ${req.user.name} (${req.user.email})
+Date: ${date || 'N/A'}
+Meal Slot: ${mealSlot || 'N/A'}
+Issue Type: ${issueType}
+
+Description:
+${description || '(no additional description provided)'}
+
+Submitted: ${timestamp}`;
+
+  const confirmationBody = `Hi ${req.user.name},
+
+This confirms your issue has been submitted to the hostel mess office.
+
+Issue Type: ${issueType}
+Date: ${date || 'N/A'}
+Meal Slot: ${mealSlot || 'N/A'}
+
+We will review this and get back to you.
+
+- Meal Billing Agent`;
+
+  const officeResult = await sendAsUser({
+    accessToken: req.user.accessToken,
+    userEmail: req.user.email,
+    to: ISSUE_OFFICE_EMAIL,
+    subject: `Meal Billing Issue - ${req.user.name} - ${issueType}`,
+    body: officeEmailBody
+  });
+
+  const confirmationResult = await sendAsUser({
+    accessToken: req.user.accessToken,
+    userEmail: req.user.email,
+    to: req.user.email,
+    subject: 'Your meal billing issue was submitted',
+    body: confirmationBody
+  });
+
+  if (!officeResult.success || !confirmationResult.success) {
+    // The issue is safely saved either way - only the email notification
+    // step failed, which we surface honestly instead of pretending it
+    // fully succeeded.
+    return res.json({
+      success: true,
+      emailWarning: !officeResult.success ? officeResult.error : confirmationResult.error
+    });
+  }
 
   res.json({ success: true });
 });
