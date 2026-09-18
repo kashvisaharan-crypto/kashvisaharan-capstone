@@ -414,17 +414,47 @@ app.post('/api/analyze', requireFullLogin, upload.single('photo'), async (req, r
   }
 });
 
-app.get('/api/quarterly-bill/:studentEmail', requireFullLogin, async (req, res) => {
-  // The URL param is accepted for backward compatibility with the existing
-  // frontend, but ignored for authorization: a student can only ever see
-  // their own bill, determined from their authenticated session - never
-  // from a client-supplied value.
+function getQuarterKey(dateStr) {
+  const [year, month] = dateStr.split('-').map(Number);
+  const q = Math.ceil(month / 3);
+  return `${year}-Q${q}`;
+}
+
+function getCurrentQuarterKey() {
+  const now = new Date();
+  return getQuarterKey(`${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-01`);
+}
+
+app.get('/api/quarterly-bill', requireFullLogin, async (req, res) => {
   const student = biometric[req.user.email];
   if (!student) return res.status(404).json({ error: 'Student not found' });
+
   const bills = await loadJSON(BILLS_PATH, {});
-  const entries = bills[req.user.email] || [];
+  const allEntries = bills[req.user.email] || [];
+
+  // Group every entry into its real calendar quarter, so "past quarters"
+  // reflects actual billing periods rather than an arbitrary window.
+  const quarterMap = {};
+  for (const entry of allEntries) {
+    const qKey = getQuarterKey(entry.date);
+    if (!quarterMap[qKey]) quarterMap[qKey] = [];
+    quarterMap[qKey].push(entry);
+  }
+
+  const currentQuarter = getCurrentQuarterKey();
+  const availableQuarters = Array.from(new Set([...Object.keys(quarterMap), currentQuarter])).sort().reverse();
+
+  const requestedQuarter = req.query.quarter || currentQuarter;
+  const entries = quarterMap[requestedQuarter] || [];
   const total = entries.reduce((sum, e) => sum + e.total, 0);
-  res.json({ studentEmail: req.user.email, name: student.name, entries, total });
+
+  res.json({
+    name: student.name,
+    quarter: requestedQuarter,
+    availableQuarters,
+    entries,
+    total
+  });
 });
 
 const ISSUE_OFFICE_EMAIL = 'student.design7@flame.edu.in';
