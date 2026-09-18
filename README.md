@@ -7,6 +7,11 @@ attendance, cross-checks the photo against the real weekly menu, and
 calculates an itemized bill — flagging anything uncertain for human review
 instead of guessing.
 
+
+The interface uses FLAME University's actual branding — navy and gold,
+extracted directly from the official logo — with a login page matching
+the university's own portal style.
+
 ## How it works
 
 1. **Login** — student signs in with their `@flame.edu.in` Google account.
