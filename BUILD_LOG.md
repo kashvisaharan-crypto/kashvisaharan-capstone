@@ -42,6 +42,13 @@
 - What Shipped: Deployed the app to production on Render (free tier), including build/start command configuration, environment variable setup, and switching the OAuth callback and app URLs from localhost to the live domain. Removed the roster-membership restriction from login: any real @flame.edu.in Google account can now sign in, not just the 100 sample students in biometric.json - a student outside that sample set can still log in and use the app, with missing attendance data handled as an existing flagged case rather than a login block.
 - What Broke: Google OAuth repeatedly failed with redirect_uri_mismatch even though the registered URI and the app's configured URI appeared identical on both sides. Root cause was an invisible artifact from copy-pasting the URI into Google Cloud Console's field; deleting the saved URI entirely and manually retyping it character-by-character resolved it. Separately, an environment variable name was typo'd (SESSION_SECRE instead of SESSION_SECRET) during manual entry on Render, which broke session handling until caught and corrected.
 
+## Entry 7
+- Date: 2026-09-22 to 2026-09-25
+- Time Spent: 12-14 hours
+- Tokens Used: 875k
+- What Shipped: Full rebrand from FLAME-branded UI to an independent product identity, Trayo. New typeface, color system, and Apple.com-inspired layout and scroll behavior applied across every page. Real hero and login page images integrated with a scroll-triggered split animation. Real weekly menu data transcribed and merged for Sept 21-27, replacing auto-generated placeholder dates. Added a Raise an Issue flow directly on the Quarterly Bill page, and a loading animation with rotating food facts during meal analysis. Removed all FLAME branding and the roster-restricted login text. Built a full presentation deck (script, slide-by-slide talking points, and anticipated Q&A) for the final capstone presentation.
+- What Broke: Several CSS specificity bugs (a stylesheet load order conflict left the loading state visible at all times regardless of its hidden class), and a scroll-height bug where the hero section could not be fully scrolled past because the page was not tall enough to clear it. Most seriously, hours before the presentation, the Gemini API had a live, external failure: three of five fallback vision models had been permanently discontinued by Google (404), a fourth had hit its free-tier daily quota (429), and the fifth was returning server-side overload errors (503). Diagnosed by reading the live error messages themselves rather than assuming the code was broken, tested across three separate API keys to rule out an account-specific quota issue, and fixed by updating the model list to the exact replacement Google's own error text recommended.
+
 **Running Totals (across all entries):**
-- Total time spent: approximately 5.5-6 hours
-- Total tokens used: 262k 
+- Total time spent: 18-20 hours
+- Total tokens used: 1.14M (3k + 25k + 51k + 100k + 23k + 60k + 875k) 
