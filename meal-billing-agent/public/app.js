@@ -33,9 +33,10 @@ function isSlotAvailableNow(slot, dateStr) {
   const today = todayStr();
   if (dateStr < today) return true;
   if (dateStr > today) return false;
-  const startHour = SLOT_START_HOUR[slot];
-  if (startHour === undefined) return true;
-  return new Date().getHours() >= startHour;
+  // Today: all meal slots are selectable regardless of current clock time.
+  // (Future dates are still blocked above - you can't log a meal that
+  // hasn't happened yet.)
+  return true;
 }
 
 initAuthNav({ requireLogin: true }).then(name => {

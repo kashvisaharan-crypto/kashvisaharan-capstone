@@ -161,7 +161,14 @@ function bestMenuMatch(expectedItems, detectedItem) {
 // ---------- Gemini ----------
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-const GEMINI_MODEL_CANDIDATES = ['gemini-3.6-flash', 'gemini-2.0-flash', 'gemini-2.0-flash-exp', 'gemini-1.5-flash-latest', 'gemini-pro-vision'];
+// Model list updated based on live error messages from the Gemini API
+// itself: gemini-2.0-flash, gemini-2.0-flash-exp, gemini-1.5-flash-latest,
+// and gemini-pro-vision all returned 404 (discontinued by Google).
+// gemini-3.8-flash is what Google's own 404 response explicitly names as
+// the current replacement. gemini-3.6-flash is kept as a second option
+// since it still exists, but has a low free-tier daily quota (20
+// requests/day) and may be exhausted - not a code bug if so.
+const GEMINI_MODEL_CANDIDATES = ['gemini-3.8-flash', 'gemini-3.6-flash'];
 
 // Realistic failure case hardened here: Gemini can hang indefinitely on a
 // slow network or an API-side slowdown, leaving the student staring at a

@@ -1,15 +1,10 @@
-/* Trayo hero: the full reference image (Trayo wordmark, Eat Up headline,
-   subtext, and cabbage leaf all baked into one photo) split into two
-   halves via clip-path, sliding apart on scroll to reveal the app below.
-   The photo sits flush against the bottom edge of the hero section. */
+/* Trayo hero: new landscape reference image, fills the entire hero
+   section edge-to-edge with no white space, split into two halves via
+   clip-path on scroll. */
 
 .hero-section {
-  background: #3E1D0E;
+  background: #FEFAF5;
   height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
   position: relative;
   overflow: hidden;
 }
@@ -17,9 +12,7 @@
 .hero-photo-wrap {
   position: relative;
   width: 100%;
-  max-width: 1200px;
-  aspect-ratio: 1586 / 992;
-  margin: 0 auto;
+  height: 100%;
 }
 
 .hero-photo-half {
