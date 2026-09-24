@@ -85,11 +85,13 @@ analyzeForm.addEventListener('submit', async (e) => {
   resultActions.classList.add('hidden');
   issueCard.classList.add('hidden');
   loading.classList.remove('hidden');
+  const factsIntervalId = startFoodFacts('foodFact');
 
   try {
     const res = await fetch('/api/analyze', { method: 'POST', body: formData });
     const data = await res.json();
     loading.classList.add('hidden');
+    stopFoodFacts(factsIntervalId);
 
     if (!res.ok) {
       resultBanner.className = 'banner flagged';
@@ -114,6 +116,7 @@ analyzeForm.addEventListener('submit', async (e) => {
     resultActions.classList.remove('hidden');
   } catch (err) {
     loading.classList.add('hidden');
+    stopFoodFacts(factsIntervalId);
     resultBanner.className = 'banner flagged';
     resultBanner.textContent = 'Error: ' + err.message;
     resultBanner.classList.remove('hidden');

@@ -2,10 +2,20 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Meal Billing Agent</title>
+<title>Trayo</title>
 <link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/loader-animation.css">
+<link rel="stylesheet" href="/hero.css">
 </head>
 <body class="app-page">
+
+<section class="hero-section" id="heroSection">
+  <div class="hero-photo-wrap">
+    <div class="hero-photo-half" id="leafLeft"></div>
+    <div class="hero-photo-half" id="leafRight"></div>
+  </div>
+</section>
+
 <nav>
   <img src="/assets/flame-logo.png" alt="FLAME University" class="nav-logo">
   <a href="/">Upload Meal Photo</a>
@@ -15,8 +25,7 @@
 
 <div class="container">
   <div class="content-box">
-  <h1>Meal Billing Agent</h1>
-  <p class="muted">Upload a photo of your meal tray and the agent will verify attendance, match it against the weekly menu, and calculate your bill.</p>
+  <h1>Trayo</h1>
 
   <form id="analyzeForm">
     <label for="studentId">Student</label>
@@ -35,7 +44,10 @@
     <button type="submit">Analyze Meal</button>
   </form>
 
-  <p id="loading" class="hidden">Agent is analyzing your meal...</p>
+  <div id="loading" class="hidden food-loader">
+    <video src="/loading-animation.mp4" autoplay loop muted playsinline width="200"></video>
+    <p id="foodFact" class="food-loader-text"></p>
+  </div>
 
   <div id="resultBanner" class="banner hidden"></div>
 
@@ -80,7 +92,9 @@
   </div>
 </div>
 
+<script src="/food-facts.js"></script>
 <script src="/auth.js"></script>
 <script src="/app.js"></script>
+<script src="/hero-scroll.js"></script>
 </body>
 </html>

@@ -75,12 +75,13 @@ nav a:hover { color: var(--gold-hover); }
   padding: 0 var(--page-margin);
 }
 
+body.app-page .container {
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
 body.app-page {
-  background-image: url('/assets/page-background.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
+  background: #FFFFFF;
   min-height: 100vh;
 }
 
