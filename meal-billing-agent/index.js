@@ -168,7 +168,7 @@ const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 // the current replacement. gemini-3.6-flash is kept as a second option
 // since it still exists, but has a low free-tier daily quota (20
 // requests/day) and may be exhausted - not a code bug if so.
-const GEMINI_MODEL_CANDIDATES = ['gemini-3.8-flash', 'gemini-3.6-flash'];
+const GEMINI_MODEL_CANDIDATES =['gemini-3.1-flash-lite'];
 
 // Realistic failure case hardened here: Gemini can hang indefinitely on a
 // slow network or an API-side slowdown, leaving the student staring at a
