@@ -1,0 +1,86 @@
+/* Bouncing food-blob loading animation, inspired by a soft minimal
+   "Foodie Loading" style: an organic blob bounces, morphs between a
+   couple of food-like shapes/colors, with a shadow that scales and
+   fades opposite the bounce height for a sense of depth. */
+
+.food-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 0;
+  gap: 20px;
+}
+
+.food-loader img {
+  border: none;
+  outline: none;
+  display: block;
+  border-radius: 0;
+  background: transparent;
+}
+
+#loading.hidden {
+  display: none;
+}
+
+.food-loader-stage {
+  position: relative;
+  width: 140px;
+  height: 160px;
+}
+
+.food-loader-blob {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 90px;
+  height: 90px;
+  margin-left: -45px;
+  border-radius: 46% 54% 60% 40% / 55% 45% 55% 45%;
+  background: #FF5A52;
+  filter: blur(0.3px);
+  animation: food-bounce 1.1s cubic-bezier(0.45, 0, 0.55, 1) infinite,
+             food-morph 2.2s ease-in-out infinite;
+}
+
+.food-loader-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 12px;
+  width: 76px;
+  height: 16px;
+  margin-left: -38px;
+  border-radius: 50%;
+  background: rgba(30, 20, 15, 0.14);
+  animation: food-shadow 1.1s cubic-bezier(0.45, 0, 0.55, 1) infinite;
+}
+
+@keyframes food-bounce {
+  0%   { top: 60px; }
+  45%  { top: 0px; }
+  100% { top: 60px; }
+}
+
+@keyframes food-shadow {
+  0%   { transform: scale(1);    opacity: 0.55; }
+  45%  { transform: scale(0.55); opacity: 0.2; }
+  100% { transform: scale(1);    opacity: 0.55; }
+}
+
+@keyframes food-morph {
+  0%   { background: #FF5A52; border-radius: 46% 54% 60% 40% / 55% 45% 55% 45%; }
+  50%  { background: #2FAE60; border-radius: 60% 40% 45% 55% / 45% 55% 45% 55%; }
+  100% { background: #FF5A52; border-radius: 46% 54% 60% 40% / 55% 45% 55% 45%; }
+}
+
+.food-loader-text {
+  max-width: 340px;
+  text-align: center;
+  font-size: 14px;
+  color: var(--navy, #333);
+  opacity: 0.85;
+  min-height: 40px;
+  transition: opacity 0.2s ease;
+  line-height: 1.5;
+}

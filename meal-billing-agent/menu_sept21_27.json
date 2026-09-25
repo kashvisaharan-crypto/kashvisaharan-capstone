@@ -1,0 +1,51 @@
+{
+  "2026-09-21": {
+    "day": "Monday",
+    "Breakfast": ["Cornflakes", "Hot & Cold Milk", "Tea", "Coffee", "Fresh Juice", "Brown Bread", "White Bread", "Butter", "Mixed Fruit Jam", "Mysore Bonda", "Masala Poha", "Sambar", "Coconut Chutney"],
+    "Lunch": ["Tandoori Laccha Salad", "Hara Bhara Kabab", "Jeera Rice", "Paneer Butter Masala", "Fry Papad", "Sevai Kheer", "Beverage of the Day", "Tomato Basil Soup", "Kosambari Salad", "Khaman", "Coriander Chutney", "Lauki Do Pyaza", "Gujarati Dal", "Phulka", "Curd", "Mixed Pickle", "Roasted Papad"],
+    "Evening Snacks": ["Tea", "Coffee", "Kacchi Dabeli"],
+    "Dinner": ["Manchow Soup", "Punjabi Kachori", "Green Sweet Chutney", "Mix Sprouts Masala", "Punjabi Dum Aloo", "Steam Rice", "Dal Tadka", "Phulka", "Mango Tang", "Mixed Pickle", "Roasted Papad", "Gulab Jamun"]
+  },
+  "2026-09-22": {
+    "day": "Tuesday",
+    "Breakfast": ["Wheat Flakes", "Hot & Cold Milk", "Tea", "Coffee Bournvita", "Cut Fruit", "Brown Bread", "White Bread", "Butter", "Mixed Fruit Jam", "Idly", "Lapsi Upma", "Sambar", "Tomato Chutney"],
+    "Lunch": ["Mediterranean Vegetable and Lentil Salad", "Cheese and Herb Croquette", "Penne Alla Rosa", "Roasted Veggies", "Garlic Bread", "Cookie Crumble Mousse", "Beverage of the Day", "Dal Shorba", "Kachumber Salad", "Mix Veg Pakoda", "Green Chutney", "Mix Veg Handi", "Black Chana Masala", "Dal Panchmel", "Steam Rice", "Phulka", "Mixed Pickle", "Roasted Papad"],
+    "Evening Snacks": ["Tea", "Coffee", "Cucumber Sandwich"],
+    "Dinner": ["Pumpkin Soup", "Kimchi", "Ragda Chat", "Sev Chopped Onion", "Mix Veg Kolhapuri", "Rajma Makhani", "Steam Rice", "Chilka Moong Fry", "Phulka", "Tang", "Mixed Pickle", "Roasted Papad", "Jalebi"]
+  },
+  "2026-09-23": {
+    "day": "Wednesday",
+    "Breakfast": ["Choco Flakes", "Hot & Cold Milk", "Tea", "Coffee", "Carrot Juice", "Brown Bread", "White Bread", "Butter", "Mixed Fruit Jam", "Dal Pakwan", "Tomato Bhat", "Dal", "Tomato Chutney"],
+    "Lunch": ["Crunchy Slaw with Soy Ginger Dressing", "Asian Fried Dumplings", "Chili Basil Fried Rice", "Tofu and Exotic Vegetables in Black Bean Sauce", "Fried Noodles", "Honey Slice Cake", "Beverage of the Day", "Lemon Coriander Soup", "Beetroot Peanut Salad", "Kotimbir Wadi", "Imli Chutney", "Karela Masala", "Chole Masala", "Dal Makhani", "Plain Rice", "Phulka", "Buttermilk", "Pickle", "Roasted Papad", "Besan Laddoo"],
+    "Evening Snacks": ["Tea", "Coffee", "Masala Bhel"],
+    "Dinner": ["Sweet Corn Soup", "Carrot Beet Salad", "Samosa", "Mint Chutney", "Cabbage Masala", "Matar Curry", "Steam Rice", "Chana Dal Tadka", "Phulka", "Jaljeera", "Mixed Pickle", "Roasted Papad", "Balushahi"]
+  },
+  "2026-09-24": {
+    "day": "Thursday",
+    "Breakfast": ["Cornflakes", "Hot & Cold Milk", "Tea", "Coffee Bournvita", "Banana", "Brown Bread", "White Bread", "Butter", "Mixed Fruit Jam", "Misal Pav", "Sabudana Kichadi", "Farshan Chop Onion", "Curd"],
+    "Lunch": ["One Campus Festive Menu", "Tomato Shorba", "Cucumber Peanut Koshimbir", "Sabudana Wada", "Kanda Batata Chi Bhaji", "Paneer Kolhapuri", "Dal Amti", "Masala Bhat", "Phulka", "Puran Poli", "Sweet Lassi", "Chilly Pickle", "Sabudana Papad", "Modak"],
+    "Evening Snacks": ["Tea", "Coffee", "Peanut Chana Chaat"],
+    "Dinner": ["Lauki Shorba", "Mixed Veg Salad", "Kirai Wada", "Green Chutney", "Chawali Home Style", "Mix Veg Peshwari", "Coriander Rice", "Masoor Dal", "Phulka", "Mango Tang", "Mixed Pickle", "Roasted Papad", "Sooji Kesari"]
+  },
+  "2026-09-25": {
+    "day": "Friday",
+    "Breakfast": ["Wheat Flakes", "Hot & Cold Milk", "Tea", "Coffee", "Mix Fruit Juice", "Brown Bread", "White Bread", "Butter", "Mixed Fruit Jam", "Methi Thepla", "Peanut Poha", "Aloo Sago", "Sev Lemon"],
+    "Lunch": ["Mexican Greens Salad", "Jalepeno Potato Bites", "Cilantro Rice", "Cottage Cheese and Exotic Veggies in Ranchero Sauce", "Nachos with Salsa", "Coffee Cinnamon Pastry", "Beverage of the Day", "Vegetable Pepper Soup", "Corn Tomato Salad", "Dahi Wada", "Aloo Methi", "Moong Home Style", "Dal Palak", "Onion Rice", "Phulka", "Butter Milk", "Roasted Papad", "Shahi Tukda"],
+    "Evening Snacks": ["Tea", "Coffee", "Sev Khamani"],
+    "Dinner": ["Carrot Ginger Soup", "Tossed Salad", "Subway Sandwich", "Turai Masala", "Makhani Gravy Malai Kofta", "Steam Rice", "Toor Dal Fry", "Phulka", "Lemon Juice", "Pickle", "Roasted Papad", "Malpua"]
+  },
+  "2026-09-26": {
+    "day": "Saturday",
+    "Breakfast": ["Choco Flakes", "Hot & Cold Milk", "Tea", "Coffee Bournvita", "Cut Guava", "Brown Bread", "White Bread", "Butter", "Mixed Fruit Jam", "Uttapam", "Pongal", "Coconut Chutney", "Sambar"],
+    "Lunch": ["Tossed Salad", "Veg Cheese Ball assorted fresh veggies with cheese", "Penne in Cheesy Harissa Sauce", "Oven Roasted Veggies zucchini bell pepper pok choy babycorn carrot cabbage", "Garlic Bread", "Pastry of the Day", "Beverage of the Day", "Vegetable Shorba", "Sprouted Moong Salad", "Veg Manchurian", "Capsicum Zunka", "Navratan Korma", "Dal Maharani", "Plain Rice", "Phulka", "Curd", "Mixed Pickle", "Roasted Papad", "Rice Kheer"],
+    "Evening Snacks": ["Tea", "Coffee", "Bread Pakoda", "Garlic Chutney"],
+    "Dinner": ["Moong Shorba", "Tandoori Salad", "Garlic Chutney", "Parwal Masala", "Chole Masala", "Steam Rice", "Dal Dhaba", "Phulka", "Tang", "Pickle", "Roasted Papad", "Wholewheat Ladoo"]
+  },
+  "2026-09-27": {
+    "day": "Sunday",
+    "Breakfast": ["Wheat Flakes", "Hot & Cold Milk", "Coffee", "Tea", "Beetroot Juice", "Brown Bread", "White Bread", "Butter", "Aloo Paratha", "Vermicelli Upma", "Curd", "Coconut Chutney"],
+    "Lunch": ["Greek Black Eyed Peas and Veggies Salad", "Cumin Fried Chickpea Cakes", "Lemon Herb Rice", "Exotic Vegetable Briam", "Parsley Butter Croutons", "Semolina Cardamom Pudding", "Beverage of the Day", "Mulligatawny Soup", "Cabbage Carrot Salad", "Moong Dal Pakoda", "Tomato Chutney", "Tindli Chana", "Veg Kofta Curry", "Dal Banjara", "Brown Onion Rice", "Phulka", "Butter Milk", "Roasted Papad", "Moong Dal Halwa"],
+    "Evening Snacks": ["Tea", "Coffee", "Punugulu", "Coconut Chutney"],
+    "Dinner": ["Beetroot Soup", "Veg Salad", "Batata Wada", "Green Chutney", "Mili Juli Veg", "Masoor Masala", "Jeera Rice", "Dal Amritsari", "Phulka", "Tang", "Roasted Papad", "Fruit Custard"]
+  }
+}

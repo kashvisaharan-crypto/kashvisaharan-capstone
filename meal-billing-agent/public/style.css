@@ -1,0 +1,364 @@
+/* ============================================================
+   Trayo — full Apple.com-style typography, spacing, and motion.
+   60-30-10 color system: beige (60%, dominant), white (30%,
+   content surfaces), orange (10%, accents/actions/focus).
+   ============================================================ */
+:root {
+  --beige: #F5EDE0;
+  --beige-deep: #E8DCC8;
+  --orange: #E55C18;
+  --orange-hover: #C94E12;
+  --error: #C0392B;
+  --success: #2F7D5A;
+  --page-margin: 1.5cm;
+  --bg: #F5EDE0;
+  --text: #1D1D1F;
+  --text-secondary: #6E6E73;
+  --card: #FFFFFF;
+  --border: #EAE0CE;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.47;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* ---------- Nav: sticky, frosted-glass blur on scroll, Apple-style. ---------- */
+nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 14px var(--page-margin);
+  background: rgba(245, 237, 224, 0.82);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+  transition: background 0.3s ease;
+}
+
+.nav-logo { display: none; }
+
+.nav-wordmark-img {
+  height: 24px;
+  width: auto;
+  display: block;
+}
+
+nav a {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 13px;
+  letter-spacing: -0.005em;
+  transition: color 0.15s ease;
+  opacity: 0.85;
+}
+
+nav a:hover { color: var(--orange); opacity: 1; }
+
+.nav-auth {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--text);
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.nav-auth button {
+  margin-top: 0;
+  padding: 6px 16px;
+  font-size: 12px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.15);
+  border-radius: 980px;
+}
+
+.nav-auth button:hover { background: var(--orange); color: #fff; border-color: var(--orange); }
+
+/* ---------- Layout ---------- */
+.container {
+  max-width: 680px;
+  margin: 64px auto;
+  padding: 0 var(--page-margin);
+}
+
+body.app-page .container {
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+h1 {
+  color: var(--text);
+  font-size: 40px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  text-align: center;
+  line-height: 1.05;
+  margin-bottom: 8px;
+}
+
+.content-box-logo {
+  display: block;
+  height: 48px;
+  width: auto;
+  margin: 0 auto 8px;
+}
+
+h2 {
+  color: var(--text);
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 16px;
+}
+
+label {
+  display: block;
+  margin-top: 22px;
+  margin-bottom: 8px;
+  font-weight: 590;
+  font-size: 11px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+input, select, textarea {
+  width: 100%;
+  padding: 13px 16px;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: inherit;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--orange);
+  box-shadow: 0 0 0 4px rgba(229, 92, 24, 0.1);
+}
+
+textarea { min-height: 100px; resize: vertical; }
+
+input[readonly] { opacity: 0.55; cursor: not-allowed; background: #FAFAFA; }
+
+/* ---------- Buttons: Apple-style pill, smooth press feedback ---------- */
+button {
+  margin-top: 26px;
+  background: var(--text);
+  color: #fff;
+  border: none;
+  padding: 13px 28px;
+  border-radius: 980px;
+  font-size: 15px;
+  font-weight: 590;
+  letter-spacing: -0.01em;
+  cursor: pointer;
+  transition: background 0.2s cubic-bezier(0.4,0,0.2,1), transform 0.12s ease, opacity 0.2s ease;
+  font-family: inherit;
+}
+
+button:hover { opacity: 0.85; }
+button:active { transform: scale(0.97); opacity: 1; }
+
+button.secondary {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid rgba(0,0,0,0.2);
+}
+
+button.secondary:hover { background: rgba(0,0,0,0.04); opacity: 1; }
+
+button.danger { background: var(--error); color: #fff; }
+
+button[type="submit"] { background: var(--orange); }
+button[type="submit"]:hover { background: var(--orange-hover); opacity: 1; }
+
+.banner {
+  margin-top: 28px;
+  padding: 16px 20px;
+  border-radius: 14px;
+  font-weight: 590;
+  font-size: 14px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  opacity: 0;
+  transform: translateY(12px);
+  animation: fade-in-up 0.5s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes fade-in-up {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.banner.approved { color: var(--success); border-color: var(--success); }
+.banner.flagged { color: var(--error); border-color: var(--error); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 24px;
+  font-size: 13.5px;
+}
+
+th, td {
+  text-align: left;
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--border);
+}
+
+th {
+  background: transparent;
+  color: var(--text-secondary);
+  font-weight: 590;
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-bottom: 1px solid var(--text);
+}
+
+.total-row { font-weight: 700; font-size: 16px; color: var(--text); }
+
+.hidden { display: none; }
+
+#loading.hidden { display: none; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  margin-top: 24px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s cubic-bezier(0.4,0,0.2,1), transform 0.6s cubic-bezier(0.4,0,0.2,1);
+}
+
+.card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.muted { color: var(--text-secondary); font-size: 13px; }
+
+#loading { color: var(--text); font-weight: 500; margin-top: 20px; }
+
+/* ---------- Content box: fades/slides in as it enters view - the
+   signature Apple product-page scroll reveal. ---------- */
+.content-box {
+  background: #fff;
+  border-radius: 22px;
+  padding: 40px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.07);
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1), transform 0.8s cubic-bezier(0.16,1,0.3,1);
+}
+
+.content-box.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ---------- Login page ---------- */
+.login-page {
+  min-height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #EFE5D6;
+  padding: 0;
+  overflow: hidden;
+}
+
+.login-hero-wrap {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  background-image: url('/assets/login-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+.login-page-logo { display: none; }
+
+.login-container {
+  position: absolute;
+  left: 23.6%;
+  top: 26.2%;
+  width: 53.5%;
+  height: 54%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 4%;
+  text-align: center;
+}
+
+.login-container .logo-img {
+  height: clamp(24px, 6vw, 44px);
+  width: auto;
+  margin-bottom: 28px;
+}
+
+.subtitle { display: none; }
+
+.google-login-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 280px;
+  padding: 12px 18px;
+  background: #fff;
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 980px;
+  font-size: clamp(12px, 1.8vw, 15px);
+  font-weight: 590;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.12s ease;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+}
+
+.google-login-button:hover {
+  background: var(--beige);
+  border-color: var(--orange);
+}
+
+.google-login-button:active { transform: scale(0.97); }
+
+.login-note { display: none; }
+
+.primary-button { width: 100%; }
+
+.error-text {
+  color: var(--error);
+  font-size: 13px;
+  margin-top: 12px;
+  font-weight: 590;
+}

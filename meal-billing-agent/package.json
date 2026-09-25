@@ -1,0 +1,21 @@
+{
+  "name": "meal-billing-agent",
+  "version": "1.0.0",
+  "description": "AI agent that analyzes meal tray photos and manages student meal billing",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "@modelcontextprotocol/server-filesystem": "^2026.8.31",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-session": "^1.19.0",
+    "googleapis": "^181.0.0",
+    "multer": "^2.0.0",
+    "passport": "^0.7.0",
+    "passport-google-oauth20": "^2.0.0"
+  }
+}

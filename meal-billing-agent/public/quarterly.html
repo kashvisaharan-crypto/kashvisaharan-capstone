@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Trayo</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body class="app-page">
+<nav>
+  <img src="/assets/trayo-logo.png" alt="Trayo" class="nav-wordmark-img">
+  <a href="/">Upload Meal Photo</a>
+  <a href="/quarterly-bill">Quarterly Bill</a>
+  <span id="authStatus" class="nav-auth"></span>
+</nav>
+
+<div class="container">
+  <div class="content-box">
+  <h1>Quarterly Bill</h1>
+
+  <label for="quarterSelect">Quarter</label>
+  <select id="quarterSelect"></select>
+
+  <div id="billCard" class="card hidden">
+    <h2 id="studentName"></h2>
+    <table id="billTable">
+      <thead>
+        <tr><th>Date</th><th>Meal</th><th>Items</th><th>Cost (₹)</th><th></th></tr>
+      </thead>
+      <tbody id="billBody"></tbody>
+      <tfoot>
+        <tr class="total-row"><td colspan="3">Total</td><td id="billTotal"></td><td></td></tr>
+      </tfoot>
+    </table>
+  </div>
+
+  <div id="issueCard" class="card hidden">
+    <h2>Raise an Issue</h2>
+    <p class="muted" id="issueContext"></p>
+    <form id="issueForm">
+      <label for="issueType">What is your issue?</label>
+      <select id="issueType" name="issueType" required>
+        <option value="Price breakdown is incorrect">Price breakdown is incorrect</option>
+        <option value="Total cost add-up is wrong">Total cost add-up is wrong</option>
+        <option value="I'm unsure if the pricing is correct">I'm unsure if the pricing is correct</option>
+        <option value="Food does not match the menu">Food does not match the menu</option>
+        <option value="The food I uploaded does match the menu - this was flagged incorrectly">The food I uploaded does match the menu - this was flagged incorrectly</option>
+        <option value="I was not present for this meal">I was not present for this meal</option>
+        <option value="Other">Other</option>
+      </select>
+
+      <label for="issueDescription">Describe your problem in detail</label>
+      <textarea id="issueDescription" name="issueDescription" required></textarea>
+
+      <button type="submit">Submit Issue</button>
+      <button type="button" id="cancelIssueBtn" class="secondary">Cancel</button>
+    </form>
+    <p id="issueStatus" class="muted"></p>
+  </div>
+  </div>
+</div>
+
+<script src="/auth.js"></script>
+<script src="/quarterly.js"></script>
+<script src="/reveal-on-scroll.js"></script>
+</body>
+</html>

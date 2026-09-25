@@ -1,0 +1,38 @@
+/* Trayo hero: new landscape reference image, fills the entire hero
+   section edge-to-edge with no white space, split into two halves via
+   clip-path on scroll. */
+
+.hero-section {
+  background: #FEFAF5;
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-photo-wrap {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-photo-half {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url('/assets/hero-full.jpg');
+  background-size: cover;
+  background-position: center;
+  transition: transform 0.05s linear;
+}
+
+#leafLeft {
+  clip-path: polygon(0 0, 50% 0, 50% 100%, 0 100%);
+  transform-origin: right center;
+}
+
+#leafRight {
+  clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+  transform-origin: left center;
+}
