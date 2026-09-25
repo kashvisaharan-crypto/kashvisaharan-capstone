@@ -43,12 +43,33 @@
 - What Broke: Google OAuth repeatedly failed with redirect_uri_mismatch even though the registered URI and the app's configured URI appeared identical on both sides. Root cause was an invisible artifact from copy-pasting the URI into Google Cloud Console's field; deleting the saved URI entirely and manually retyping it character-by-character resolved it. Separately, an environment variable name was typo'd (SESSION_SECRE instead of SESSION_SECRET) during manual entry on Render, which broke session handling until caught and corrected.
 
 ## Entry 7
-- Date: 2026-09-22 to 2026-09-25
-- Time Spent: 12-14 hours
-- Tokens Used: 875k
-- What Shipped: Full rebrand from FLAME-branded UI to an independent product identity, Trayo. New typeface, color system, and Apple.com-inspired layout and scroll behavior applied across every page. Real hero and login page images integrated with a scroll-triggered split animation. Real weekly menu data transcribed and merged for Sept 21-27, replacing auto-generated placeholder dates. Added a Raise an Issue flow directly on the Quarterly Bill page, and a loading animation with rotating food facts during meal analysis. Removed all FLAME branding and the roster-restricted login text. Built a full presentation deck (script, slide-by-slide talking points, and anticipated Q&A) for the final capstone presentation.
-- What Broke: Several CSS specificity bugs (a stylesheet load order conflict left the loading state visible at all times regardless of its hidden class), and a scroll-height bug where the hero section could not be fully scrolled past because the page was not tall enough to clear it. Most seriously, hours before the presentation, the Gemini API had a live, external failure: three of five fallback vision models had been permanently discontinued by Google (404), a fourth had hit its free-tier daily quota (429), and the fifth was returning server-side overload errors (503). Diagnosed by reading the live error messages themselves rather than assuming the code was broken, tested across three separate API keys to rule out an account-specific quota issue, and fixed by updating the model list to the exact replacement Google's own error text recommended.
+- Date: 2026-09-22
+- Time Spent: 2.5 hours
+- Tokens Used: 130k
+- What Shipped: Explored the rebrand direction away from FLAME-branded UI, early color and typography tests toward the independent Trayo identity.
+- What Broke: Nothing broke technically, this was largely exploratory design work before any real implementation began.
+
+## Entry 8
+- Date: 2026-09-23
+- Time Spent: 3.5 hours
+- Tokens Used: 200k
+- What Shipped: Built the scroll-triggered image-split hero mechanic, sourced and precisely aligned the final hero and login background images.
+- What Broke: The hero section could not be fully scrolled past, the page was not tall enough below it to clear it. Fixed by capping the hero at a fixed height and ensuring the content below it was always at least as tall as the hero itself.
+
+## Entry 9
+- Date: 2026-09-24
+- Time Spent: 4 hours
+- Tokens Used: 330k
+- What Shipped: Transcribed and merged the real weekly menu data, added the Raise an Issue flow to the Quarterly Bill page, built the loading animation, fixed several CSS specificity and scroll-height bugs.
+- What Broke: A CSS specificity conflict between two stylesheets left the loading animation visible at all times regardless of its hidden class, since a later-loaded stylesheet's equal-specificity rule silently won. Fixed by adding a more specific override rule.
+
+## Entry 10
+- Date: 2026-09-25
+- Time Spent: 3 hours
+- Tokens Used: 215k
+- What Shipped: Diagnosed and fixed a live Gemini API outage, finalized the build log, and built the full presentation deck.
+- What Broke: Google's Gemini API returned errors across every fallback model, some permanently discontinued (404), one rate-limited (429), others overloaded (503). Traced across three separate API keys to rule out an account-specific cause, then confirmed the correct current model name, gemini-3.1-flash-lite, directly from Google AI Studio's own model list rather than guessing from error messages alone.
 
 **Running Totals (across all entries):**
 - Total time spent: 18-20 hours
-- Total tokens used: 1.14M (3k + 25k + 51k + 100k + 23k + 60k + 875k) 
+- Total tokens used: 1.14M (3k + 25k + 51k + 100k + 23k + 60k + 130k + 200k + 330k + 215k) 
